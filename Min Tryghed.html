@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<!-- saved from url=(0074)file:///C:/Users/tineo/Desktop/Media&tools/Downloads/min_tryghed_demo.html -->
+<html lang="da"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Min Tryghed</title>
+  <style>
+    :root {
+      --bg: #f6efe3;
+      --bg-soft: #fbf7f0;
+      --card: #fffaf2;
+      --primary: #6f7f5a;
+      --primary-dark: #556246;
+      --accent: #9a6a4b;
+      --accent-soft: #c8ab93;
+      --text: #3f352d;
+      --muted: #76685d;
+      --line: #dbcab8;
+      --white: #ffffff;
+      --shadow: 0 10px 30px rgba(75, 58, 43, 0.12);
+      --shadow-soft: 0 6px 18px rgba(75, 58, 43, 0.08);
+      --radius-xl: 34px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.55), transparent 30%),
+        linear-gradient(180deg, #f8f3ea 0%, #f2e8da 100%);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      overflow-x: hidden;
+      user-select: none;
+    }
+
+    body {
+      min-height: 100vh;
+    }
+
+    .paper-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.22;
+      background-image:
+        radial-gradient(rgba(120,100,80,0.08) 1px, transparent 1px);
+      background-size: 10px 10px;
+      z-index: 0;
+    }
+
+    .screen {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+    }
+
+    header {
+      text-align: center;
+      padding: 42px 20px 16px;
+    }
+
+    h1, h2 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      color: var(--primary-dark);
+      margin: 0;
+    }
+
+    h1 {
+      font-size: clamp(2.8rem, 5vw, 4.8rem);
+      line-height: 1.08;
+    }
+
+    h2 {
+      font-size: clamp(2.2rem, 4vw, 3.6rem);
+      margin-bottom: 16px;
+    }
+
+    .sub-text {
+      font-size: clamp(1.3rem, 2vw, 2rem);
+      color: var(--muted);
+      margin-top: 14px;
+      line-height: 1.4;
+    }
+
+    .intro-box {
+      max-width: 1000px;
+      margin: 18px auto 10px;
+      background: rgba(255, 250, 242, 0.78);
+      border: 1px solid rgba(180, 150, 120, 0.18);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-soft);
+      padding: 22px 24px;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: stretch;
+      gap: 30px;
+      padding: 24px 24px 48px;
+      max-width: 1380px;
+      margin: 0 auto;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .back-button {
+      position: fixed;
+      top: 22px;
+      left: 22px;
+      padding: 18px 28px;
+      font-size: 1.8rem;
+      background: rgba(255,250,242,0.95);
+      color: var(--primary-dark);
+      border: 2px solid var(--line);
+      border-radius: 18px;
+      font-weight: 700;
+      z-index: 1000;
+      box-shadow: var(--shadow-soft);
+      cursor: pointer;
+    }
+
+    .back-button:active {
+      transform: scale(0.98);
+    }
+
+    .citizen-card {
+      width: 340px;
+      background: linear-gradient(180deg, #fffdf9 0%, #fbf3e7 100%);
+      border: 2px solid var(--line);
+      border-radius: 34px;
+      padding: 22px 20px 26px;
+      text-align: center;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: transform 0.15s ease;
+      position: relative;
+    }
+
+    .citizen-card::before {
+      content: "Mit mindealbum";
+      position: absolute;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 1rem;
+      color: var(--muted);
+      background: #f4e7d8;
+      border-radius: 999px;
+      padding: 6px 14px;
+      letter-spacing: 0.02em;
+    }
+
+    .citizen-card:active {
+      transform: scale(0.97);
+    }
+
+    .profile-frame {
+      width: 250px;
+      height: 250px;
+      margin: 42px auto 20px;
+      border-radius: 28px;
+      background: #efe3d4;
+      padding: 10px;
+      box-shadow: inset 0 0 0 2px rgba(160,130,100,0.12);
+    }
+
+    .profile-img {
+      width: 100%;
+      height: 100%;
+      border-radius: 22px;
+      object-fit: cover;
+      display: block;
+      background: #eee;
+      filter: saturate(0.9) contrast(0.96);
+    }
+
+    .citizen-name {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 6px;
+    }
+
+    .citizen-hint {
+      font-size: 1.2rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    .menu-btn {
+      background: linear-gradient(180deg, #fffdf8 0%, #f9efdf 100%);
+      border: 2px solid var(--line);
+      border-radius: 30px;
+      width: 460px;
+      min-height: 200px;
+      display: flex;
+      align-items: center;
+      padding: 24px 28px;
+      gap: 22px;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: transform 0.15s ease, background 0.2s ease;
+    }
+
+    .menu-btn:active {
+      transform: scale(0.98);
+      background: #fff7ed;
+    }
+
+    .menu-btn.calm {
+      width: 960px;
+      background: linear-gradient(135deg, #7a8c66 0%, #5e6f4c 100%);
+      color: white;
+      border: none;
+      justify-content: center;
+      min-height: 180px;
+    }
+
+    .icon-box {
+      width: 92px;
+      height: 92px;
+      border-radius: 24px;
+      background: #f3e5d4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 3rem;
+      box-shadow: inset 0 0 0 1px rgba(160,130,100,0.14);
+    }
+
+    .menu-btn.calm .icon-box {
+      background: rgba(255,255,255,0.15);
+      color: white;
+    }
+
+    .menu-copy {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: left;
+      gap: 8px;
+    }
+
+    .menu-title {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      line-height: 1.1;
+    }
+
+    .menu-sub {
+      font-size: 1.3rem;
+      line-height: 1.4;
+      color: var(--muted);
+    }
+
+    .menu-btn.calm .menu-sub {
+      color: rgba(255,255,255,0.9);
+    }
+
+    .memory-card {
+      background: linear-gradient(180deg, #fffdf8 0%, #fbf3e7 100%);
+      border-radius: 34px;
+      padding: 26px;
+      width: 100%;
+      max-width: 920px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      border: 2px solid var(--line);
+    }
+
+    .memory-frame {
+      background: #f1e3d3;
+      border-radius: 28px;
+      padding: 10px;
+      margin-bottom: 18px;
+    }
+
+    .memory-img {
+      width: 100%;
+      height: 480px;
+      border-radius: 22px;
+      object-fit: cover;
+      display: block;
+      background: #f0f0f0;
+      filter: saturate(0.92) contrast(0.97);
+    }
+
+    .memory-desc {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      line-height: 1.25;
+      margin: 20px 0 26px;
+      min-height: 72px;
+      color: var(--primary-dark);
+    }
+
+    .nav-controls {
+      display: flex;
+      gap: 16px;
+    }
+
+    .nav-btn {
+      flex: 1;
+      padding: 24px;
+      font-size: 1.8rem;
+      border-radius: 18px;
+      border: none;
+      background: var(--accent);
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .nav-btn:active {
+      transform: scale(0.98);
+    }
+
+    .audio-box {
+      background: linear-gradient(180deg, #fffdf8 0%, #fbf3e7 100%);
+      padding: 60px 32px;
+      border-radius: 34px;
+      text-align: center;
+      width: 100%;
+      max-width: 760px;
+      box-shadow: var(--shadow);
+      border: 2px solid var(--line);
+    }
+
+    .audio-intro {
+      color: var(--muted);
+      font-size: 1.35rem;
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+
+    .play-btn {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #718259 0%, #5d6d49 100%);
+      color: white;
+      font-size: 5.5rem;
+      border: 8px solid #edf0e7;
+      margin: 34px auto 26px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0 18px 28px rgba(70, 82, 53, 0.22);
+    }
+
+    .play-btn:active {
+      transform: scale(0.98);
+    }
+
+    .status-tag {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-top: 18px;
+    }
+
+    .calm-overlay {
+      background:
+        radial-gradient(circle at top, rgba(255,255,255,0.45), transparent 40%),
+        linear-gradient(180deg, #eef1e2 0%, #f7f2e7 100%);
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .calm-box {
+      background: rgba(255, 250, 242, 0.88);
+      border: 2px solid rgba(180, 150, 120, 0.18);
+      border-radius: 36px;
+      padding: 30px 26px 34px;
+      max-width: 760px;
+      width: 100%;
+      box-shadow: var(--shadow);
+    }
+
+    .calm-circle-wrap {
+      width: 340px;
+      height: 340px;
+      background: #efe3d3;
+      border-radius: 50%;
+      padding: 10px;
+      margin: 0 auto 26px;
+      box-shadow: inset 0 0 0 2px rgba(160,130,100,0.12);
+    }
+
+    .calm-circle-img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+      border: 10px solid white;
+      box-shadow: var(--shadow-soft);
+      animation: pulse 8s infinite ease-in-out;
+      filter: saturate(0.9) contrast(0.97);
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.04); }
+      100% { transform: scale(1); }
+    }
+
+    .calm-title {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 4.4rem;
+      color: var(--primary-dark);
+      margin-bottom: 10px;
+    }
+
+    .calm-text {
+      font-size: 2rem;
+      color: var(--muted);
+      line-height: 1.5;
+      margin-bottom: 30px;
+    }
+
+    .calm-note {
+      font-size: 1.2rem;
+      color: #85776b;
+      margin-top: 18px;
+      line-height: 1.4;
+    }
+
+    @media (max-width: 1100px) {
+      .menu-btn,
+      .menu-btn.calm {
+        width: 100%;
+        max-width: 760px;
+      }
+
+      .back-button {
+        top: 14px;
+        left: 14px;
+        font-size: 1.4rem;
+        padding: 14px 20px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      header {
+        padding-top: 84px;
+      }
+
+      .container {
+        gap: 22px;
+        padding: 18px 14px 36px;
+      }
+
+      .citizen-card {
+        width: 100%;
+        max-width: 360px;
+      }
+
+      .profile-frame {
+        width: 220px;
+        height: 220px;
+      }
+
+      .menu-btn {
+        min-height: 160px;
+        padding: 18px 18px;
+      }
+
+      .menu-title {
+        font-size: 2rem;
+      }
+
+      .menu-sub {
+        font-size: 1.15rem;
+      }
+
+      .icon-box {
+        width: 76px;
+        height: 76px;
+        font-size: 2.3rem;
+      }
+
+      .memory-img {
+        height: 320px;
+      }
+
+      .memory-desc {
+        font-size: 2rem;
+      }
+
+      .play-btn {
+        width: 160px;
+        height: 160px;
+        font-size: 4.4rem;
+      }
+
+      .calm-circle-wrap {
+        width: 260px;
+        height: 260px;
+      }
+
+      .calm-title {
+        font-size: 3.2rem;
+      }
+
+      .calm-text {
+        font-size: 1.6rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="paper-bg"></div>
+
+  <div id="view-home" class="screen">
+    <header>
+      <h1>Min Tryghed</h1>
+      <div class="intro-box">
+        <div class="sub-text">Tryk på dit billede for at åbne dine minder, din musik og kendte stemmer.</div>
+      </div>
+    </header>
+    <div class="container" id="citizen-list"><div class="citizen-card">
+          <div class="profile-frame">
+            <img src="./Min Tryghed_files/photo-1508214751196-bcfd4ca60f91" class="profile-img" alt="Anna">
+          </div>
+          <div class="citizen-name">Anna</div>
+          <div class="citizen-hint">Tryk for at åbne</div>
+        </div><div class="citizen-card">
+          <div class="profile-frame">
+            <img src="./Min Tryghed_files/photo-1544144433-d50aff500b91" class="profile-img" alt="Hans">
+          </div>
+          <div class="citizen-name">Hans</div>
+          <div class="citizen-hint">Tryk for at åbne</div>
+        </div><div class="citizen-card">
+          <div class="profile-frame">
+            <img src="./Min Tryghed_files/photo-1519707666850-41fa5cc0e620" class="profile-img" alt="Karen">
+          </div>
+          <div class="citizen-name">Karen</div>
+          <div class="citizen-hint">Tryk for at åbne</div>
+        </div></div>
+  </div>
+
+  <div id="view-profile" class="screen hidden">
+    <button class="back-button" onclick="goToHome()">⬅ Tilbage</button>
+    <header>
+      <h1 id="active-user-name">Navn</h1>
+      <div class="sub-text">Vælg det, der føles rart lige nu</div>
+    </header>
+    <div class="container">
+      <div class="menu-btn" onclick="openMemories()">
+        <div class="icon-box">🖼️</div>
+        <div class="menu-copy">
+          <div class="menu-title">Mine minder</div>
+          <div class="menu-sub">Se billeder og små minder fra livet</div>
+        </div>
+      </div>
+
+      <div class="menu-btn" onclick="openAudio(&#39;music&#39;)">
+        <div class="icon-box">🎵</div>
+        <div class="menu-copy">
+          <div class="menu-title">Min musik</div>
+          <div class="menu-sub">Lyt til sange, der føles velkendte</div>
+        </div>
+      </div>
+
+      <div class="menu-btn" onclick="openAudio(&#39;voice&#39;)">
+        <div class="icon-box">🗣️</div>
+        <div class="menu-copy">
+          <div class="menu-title">Kendte stemmer</div>
+          <div class="menu-sub">Hør en rolig hilsen fra familien</div>
+        </div>
+      </div>
+
+      <div class="menu-btn" onclick="alert(&#39;Her kan der senere være små aktiviteter, fx blomster, fuglesang eller kendte steder.&#39;)">
+        <div class="icon-box">🌼</div>
+        <div class="menu-copy">
+          <div class="menu-title">Små aktiviteter</div>
+          <div class="menu-sub">Enkle valg med billeder, lyde og ro</div>
+        </div>
+      </div>
+
+      <div class="menu-btn calm" onclick="startCalm()">
+        <div class="icon-box">🌿</div>
+        <div class="menu-copy" style="align-items:center; text-align:center;">
+          <div class="menu-title">Tryk for ro</div>
+          <div class="menu-sub">Start en rolig stund med billede og musik</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="view-memories" class="screen hidden">
+    <button class="back-button" onclick="showView(&#39;view-profile&#39;)">⬅ Tilbage</button>
+    <header>
+      <h1>Mine minder</h1>
+    </header>
+    <div class="container">
+      <div class="memory-card">
+        <div class="memory-frame">
+          <img id="mem-img" src="file:///C:/Users/tineo/Desktop/Media&amp;tools/Downloads/min_tryghed_demo.html" class="memory-img" alt="Minde-billede">
+        </div>
+        <div id="mem-text" class="memory-desc"></div>
+        <div class="nav-controls">
+          <button class="nav-btn" onclick="navMemory(-1)">⬅ Forrige</button>
+          <button class="nav-btn" onclick="navMemory(1)">Næste ➡</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="view-audio" class="screen hidden">
+    <button class="back-button" onclick="showView(&#39;view-profile&#39;)">⬅ Tilbage</button>
+    <header>
+      <h1 id="audio-title">Min musik</h1>
+      <div id="audio-sub" class="audio-intro">Lyt til noget, der føles rart og velkendt</div>
+    </header>
+    <div class="container">
+      <div class="audio-box">
+        <button class="play-btn" id="audio-play-btn" onclick="toggleAudio()">▶</button>
+        <div id="audio-status" class="status-tag">Stoppet</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="view-calm" class="calm-overlay hidden">
+    <div class="calm-box">
+      <div class="calm-circle-wrap">
+        <img id="calm-img" src="file:///C:/Users/tineo/Desktop/Media&amp;tools/Downloads/min_tryghed_demo.html" class="calm-circle-img" alt="Roligt billede">
+      </div>
+      <div class="calm-title">Du er tryg</div>
+      <div class="calm-text">Tag en rolig pause. Se på billedet og lyt stille.</div>
+      <button class="nav-btn" style="max-width: 320px; margin: 0 auto;" onclick="stopCalm()">Færdig</button>
+      <div class="calm-note">SSA eller pårørende kan støtte borgeren undervejs</div>
+    </div>
+  </div>
+
+  <audio id="player" preload="auto"></audio>
+
+  <script>
+    const demoData = [
+      {
+        name: "Anna",
+        profile: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=400&q=80",
+        music: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+        voice: "https://actions.google.com/sounds/v1/human_voices/female_voice_says_hello.ogg",
+        memories: [
+          { img: "https://images.unsplash.com/photo-1530124560677-bdaea02c9a5b?auto=format&fit=crop&w=800&q=80", text: "Dette er din datter Lene" },
+          { img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=800&q=80", text: "Dette er din mand Poul" },
+          { img: "https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?auto=format&fit=crop&w=800&q=80", text: "Dette er din hund Bella" },
+          { img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80", text: "Her er du ved stranden om sommeren" }
+        ]
+      },
+      {
+        name: "Hans",
+        profile: "https://images.unsplash.com/photo-1544144433-d50aff500b91?auto=format&fit=crop&w=400&q=80",
+        music: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
+        voice: "https://actions.google.com/sounds/v1/human_voices/male_voice_greeting.ogg",
+        memories: [
+          { img: "https://images.unsplash.com/photo-1544120190-2758bf627aee?auto=format&fit=crop&w=800&q=80", text: "Dette er din kone Inger" },
+          { img: "https://images.unsplash.com/photo-1480429370139-e0132c086e2a?auto=format&fit=crop&w=800&q=80", text: "Dette er din søn Michael" },
+          { img: "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=800&q=80", text: "Her er du i haven" },
+          { img: "https://images.unsplash.com/photo-1544764200-d834fd210a23?auto=format&fit=crop&w=800&q=80", text: "Her er du på fisketur" }
+        ]
+      },
+      {
+        name: "Karen",
+        profile: "https://images.unsplash.com/photo-1519707666850-41fa5cc0e620?auto=format&fit=crop&w=400&q=80",
+        music: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
+        voice: "https://actions.google.com/sounds/v1/human_voices/female_voice_says_hello.ogg",
+        memories: [
+          { img: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=800&q=80", text: "Dette er din datter Mette" },
+          { img: "https://images.unsplash.com/photo-1516627145497-ae6968895b74?auto=format&fit=crop&w=800&q=80", text: "Dette er dit barnebarn Sofie" },
+          { img: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=800&q=80", text: "Dette er din kat Mille" },
+          { img: "https://images.unsplash.com/photo-1530103043960-ef38714abb15?auto=format&fit=crop&w=800&q=80", text: "Her er du til fødselsdag" }
+        ]
+      }
+    ];
+
+    let currentUser = null;
+    let memIdx = 0;
+    const player = document.getElementById('player');
+
+    function init() {
+      const list = document.getElementById('citizen-list');
+      list.innerHTML = "";
+      demoData.forEach(user => {
+        const card = document.createElement('div');
+        card.className = 'citizen-card';
+        card.onclick = () => selectUser(user);
+        card.innerHTML = `
+          <div class="profile-frame">
+            <img src="${user.profile}" class="profile-img" alt="${user.name}">
+          </div>
+          <div class="citizen-name">${user.name}</div>
+          <div class="citizen-hint">Tryk for at åbne</div>
+        `;
+        list.appendChild(card);
+      });
+    }
+
+    function selectUser(user) {
+      currentUser = user;
+      document.getElementById('active-user-name').innerText = user.name;
+      showView('view-profile');
+    }
+
+    function showView(id) {
+      if (id !== 'view-audio' && id !== 'view-calm') {
+        player.pause();
+      }
+      document.querySelectorAll('body > div.screen').forEach(v => v.classList.add('hidden'));
+      document.getElementById(id).classList.remove('hidden');
+      window.scrollTo(0, 0);
+    }
+
+    function goToHome() {
+      currentUser = null;
+      showView('view-home');
+    }
+
+    function openMemories() {
+      memIdx = 0;
+      updateMemory();
+      showView('view-memories');
+    }
+
+    function updateMemory() {
+      const m = currentUser.memories[memIdx];
+      document.getElementById('mem-img').src = m.img;
+      document.getElementById('mem-text').innerText = m.text;
+    }
+
+    function navMemory(dir) {
+      memIdx += dir;
+      if (memIdx < 0) memIdx = currentUser.memories.length - 1;
+      if (memIdx >= currentUser.memories.length) memIdx = 0;
+      updateMemory();
+    }
+
+    function openAudio(type) {
+      const title = document.getElementById('audio-title');
+      const sub = document.getElementById('audio-sub');
+
+      if (type === 'music') {
+        title.innerText = "Min musik";
+        sub.innerText = "Lyt til sange, der føles rare og velkendte";
+        player.src = currentUser.music;
+      } else {
+        title.innerText = "Kendte stemmer";
+        sub.innerText = "Lyt til en tryg hilsen fra familien";
+        player.src = currentUser.voice;
+      }
+
+      updateAudioUI('stop');
+      showView('view-audio');
+    }
+
+    function toggleAudio() {
+      if (player.paused) {
+        player.play();
+        updateAudioUI('play');
+      } else {
+        player.pause();
+        updateAudioUI('pause');
+      }
+    }
+
+    function updateAudioUI(state) {
+      const btn = document.getElementById('audio-play-btn');
+      const status = document.getElementById('audio-status');
+
+      if (state === 'play') {
+        btn.innerText = '▮▮';
+        status.innerText = 'Afspiller nu...';
+        btn.style.background = 'linear-gradient(135deg, #a96a56 0%, #8d5545 100%)';
+      } else {
+        btn.innerText = '▶';
+        status.innerText = state === 'pause' ? 'Sat på pause' : 'Stoppet';
+        btn.style.background = 'linear-gradient(135deg, #718259 0%, #5d6d49 100%)';
+      }
+    }
+
+    function startCalm() {
+      document.getElementById('calm-img').src = currentUser.profile;
+      player.src = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3";
+      player.loop = true;
+      player.play();
+      showView('view-calm');
+    }
+
+    function stopCalm() {
+      player.pause();
+      player.loop = false;
+      showView('view-profile');
+    }
+
+    player.onended = () => updateAudioUI('stop');
+
+    init();
+  </script>
+
+
+</body></html>
